@@ -41,24 +41,12 @@ int main()
     int mouse_x,mouse_y;
     int sfxplayed_x=450,sfxplayed_y=170;
     //Intializing SDL
-    
-
-    if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_TIMER)==-1)
-	{
-		printf("Could not initialize SDL : %s.\n",SDL_GetError());
-		return -1;
-	}
-    if(Mix_OpenAudio(44100,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024)==-1)
-	{
-		printf("Could not open audio : %s\n",SDL_GetError());
+    if(init()==-1){
         return -1;
-	}
-    if(TTF_Init()==-1)
-	{
-		printf("Could not initialize TTF : %s.\n",SDL_GetError());
-		return -1;
-	}
+    }
+
     screen=SDL_SetVideoMode(SCREEN_W,SCREEN_H,32,SDL_SWSURFACE|SDL_DOUBLEBUF);
+    if(screen==NULL)return -1;
     
     //Loading images
 
