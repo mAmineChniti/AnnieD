@@ -6,7 +6,7 @@
 typedef struct {
     int hp;
     int lives;
-    img img;    
+    img img;
 }character;
 int collision(character character1, img img1);
 
