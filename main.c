@@ -10,7 +10,7 @@
 
 int main()
 {
-    int fps=30;
+    int fps=24;
     float frames=0;
     char sframes[10];
     SDL_Surface *screen;
