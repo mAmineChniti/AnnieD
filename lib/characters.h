@@ -8,6 +8,6 @@ typedef struct {
     int lives;
     img img;
 }character;
-int collision(character character1, img img1);
+//int collision(character character1, img img1);
 
 #endif
