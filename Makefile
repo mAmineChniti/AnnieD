@@ -14,8 +14,10 @@ main.o: main.c
 AnnieD: main.o $(patsubst lib/%.c, lib/%.o, $(wildcard lib/*.c))
 	$(CC) $(CFLAGS) $^ -o AnnieD $(LDFLAGS)
 
-all: AnnieD
+exe: AnnieD
 
 # Clean object files
 clean:
 	rm -f *.o lib/*.o
+cleanall:
+	rm -f *.o lib/*.o AnnieD
