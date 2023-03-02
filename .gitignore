@@ -1,4 +1,3 @@
 *.o
-build/*.o
-program
-makefile1
+obj/
+AnnieD
