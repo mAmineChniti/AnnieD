@@ -3,21 +3,22 @@ LIBS = -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf
 CONF = `sdl-config --libs` 
 CC = gcc
 LDFLAGS = $(CONF) $(LIBS)
+$(shell mkdir -p obj)
 
 
-lib/%.o: lib/%.c
+obj/%.o: lib/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
 
-main.o: main.c
+obj/main.o: main.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
 
-AnnieD: main.o $(patsubst lib/%.c, lib/%.o, $(wildcard lib/*.c))
+AnnieD: obj/main.o $(patsubst lib/%.c, obj/%.o, $(wildcard lib/*.c))
 	$(CC) $(CFLAGS) $^ -o AnnieD $(LDFLAGS)
 
 exe: AnnieD
 
 # Clean object files
 clean:
-	rm -f *.o lib/*.o
+	rm -f -r obj/
 cleanall:
-	rm -f *.o lib/*.o AnnieD
+	rm -f -r obj/ AnnieD
