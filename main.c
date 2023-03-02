@@ -75,7 +75,7 @@ int main()
     //Loading music/sounds
 
 
-    buttonsfx=Mix_LoadWAV("music/button_sfx.wav");
+    buttonsfx=Mix_LoadWAV("music/SFX_1.wav");
     maintheme=Mix_LoadMUS("music/main_theme.mp3");
 
     //play main theme
