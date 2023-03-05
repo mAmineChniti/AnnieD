@@ -15,7 +15,7 @@ obj/main.o: main.c
 AnnieD: obj/main.o $(patsubst lib/%.c, obj/%.o, $(wildcard lib/*.c))
 	$(CC) $(CFLAGS) $^ -o AnnieD $(LDFLAGS)
 
-exe: cleanall AnnieD
+exe: AnnieD
 
 # Clean object files
 clean:
