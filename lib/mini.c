@@ -16,7 +16,7 @@ void init_miniplayer(miniplayer *mp, char *path){
     if(mp->img.image==NULL)printf("Unable to load background image %s \n",SDL_GetError());
 }
 
-void update_miniplayer(minimap *mm,miniplayer *mp,character *player, SDL_Surface *screen){
+void update_miniplayer(minimap *mm, miniplayer *mp, character *player, SDL_Surface *screen){
     float scale_factor = (float) mm->img.image->w / (float)screen->w;
     mp->img.pos.x = player->img.pos.x * scale_factor + mm->img.pos.x;
     mp->img.pos.y = player->img.pos.y * scale_factor + mm->img.pos.y;
