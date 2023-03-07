@@ -5,7 +5,7 @@
 
 void load_img(img* img, char* path, int x, int y){
     img->image=IMG_Load(path);
-    if(img->image==NULL)printf("Unable to load background image %s \n",SDL_GetError());
+    if(img->image==NULL)printf("Unable to load image %s \n",SDL_GetError());
     img->pos.x=x;
     img->pos.y=y;
 }

@@ -11,6 +11,6 @@ typedef struct {
     img img;
 }miniplayer;
 void init_minimap(minimap *mm, char *path, SDL_Surface *screen);
-void init_miniplayer(miniplayer *mp,char *path);
+void init_miniplayer(miniplayer *mp, char *path);
 void update_miniplayer(minimap * mm, miniplayer *mp, character *player, SDL_Surface *screen);
 #endif

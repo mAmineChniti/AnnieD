@@ -4,16 +4,18 @@
 #include "characters.h"
 #include "mini.h"
 
-void init_minimap(minimap *mm,char *path, SDL_Surface *screen){
+void init_minimap(minimap *mm, char *path, SDL_Surface *screen){
     mm->img.image=IMG_Load(path);
-    if(mm->img.image==NULL)printf("Unable to load background image %s \n",SDL_GetError());
+    if(mm->img.image==NULL)printf("Unable to load image %s \n",SDL_GetError());
     mm->img.pos.x = screen->w - mm->img.image->w;
     mm->img.pos.y = screen->w - mm->img.image->w;
 } // use load_img from img.c to show minimap
 
+
+
 void init_miniplayer(miniplayer *mp, char *path){
     mp->img.image=IMG_Load(path);
-    if(mp->img.image==NULL)printf("Unable to load background image %s \n",SDL_GetError());
+    if(mp->img.image==NULL)printf("Unable to load image %s \n",SDL_GetError());
 }
 
 void update_miniplayer(minimap *mm, miniplayer *mp, character *player, SDL_Surface *screen){
