@@ -49,16 +49,18 @@ Uint32 get_pixel(SDL_Surface *surface, int x, int y){
 }
 
 void minimap_maker(minimap *mm, SDL_Surface *screen, int pause, SDL_Event event){
-    int block_size = 5;
+    float scale_factor = (float) mm->img.image->w / (float)screen->w;
+    int block_size = (int)(5 * scale_factor);
     int screen_width = screen->w;
     int screen_height = screen->h;
     SDL_Surface *minimap_surface = SDL_CreateRGBSurface(0, screen_width/block_size, screen_height/block_size, 32, 0, 0, 0, 0);
+    Uint32 bg_color = SDL_MapRGB(screen->format, 0, 0, 0);
     while(!pause){
         for (int y = 0; y < screen_height; y += block_size) {
             for (int x = 0; x < screen_width; x += block_size) {
                 SDL_Rect rect = {x/block_size, y/block_size, 1, 1};
                 Uint32 pixel = get_pixel(screen, x, y);
-                if (pixel != SDL_MapRGB(screen->format, 0, 0, 0)) {
+                if (pixel != bg_color) {
                     SDL_FillRect(minimap_surface, &rect, SDL_MapRGB(screen->format, 0, 255, 0));
                 }
             }
