@@ -28,51 +28,25 @@ void update_time(int pause, minimap *mm, Uint32 start_time, SDL_Event event) {
     txt timertxt;
     char time_str[20];
     load_txt(&timertxt, mm->img.pos.x + 10, mm->img.pos.y + 10, 255, 255, 255, "fonts/pixel_arial.ttf", 10);
-
     while (!pause) {
         Uint32 current_time = SDL_GetTicks();
         Uint32 elapsed_time = (current_time - start_time) / 1000;
         sprintf(time_str, "%02d:%02d", elapsed_time / 60, elapsed_time % 60);
         print_txt(mm->img.image, &timertxt, time_str);
-
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
-                pause = 1;
-            }
-        }
     }
 }
 
-Uint32 get_pixel(SDL_Surface *surface, int x, int y){
-    Uint32 *pixels = (Uint32 *)surface->pixels;
-    return pixels[y * surface->w + x];
-}
-
-void minimap_maker(minimap *mm, SDL_Surface *screen, int pause, SDL_Event event){
+void minimap_maker(minimap *mm, SDL_Surface *screen, img *Tiles, int TilesNum, int pause, SDL_Event event){
     float scale_factor = (float) mm->img.image->w / (float)screen->w;
-    int block_size = (int)(5 * scale_factor);
-    int screen_width = screen->w;
-    int screen_height = screen->h;
-    SDL_Surface *minimap_surface = SDL_CreateRGBSurface(0, screen_width/block_size, screen_height/block_size, 32, 0, 0, 0, 0);
-    Uint32 bg_color = SDL_MapRGB(screen->format, 0, 0, 0);
     while(!pause){
-        for (int y = 0; y < screen_height; y += block_size) {
-            for (int x = 0; x < screen_width; x += block_size) {
-                SDL_Rect rect = {x/block_size, y/block_size, 1, 1};
-                Uint32 pixel = get_pixel(screen, x, y);
-                if (pixel != bg_color) {
-                    SDL_FillRect(minimap_surface, &rect, SDL_MapRGB(screen->format, 0, 255, 0));
-                }
-            }
+        for (int i = 0; i < TileNum; i++) {
+            int x = (int)(Tiles[i].pos.x / scale_factor);
+            int y = (int)(Tiles[i].pos.y / scale_factor);
+            int w = (int)(Tiles[i].pos.w / scale_factor);
+            int h = (int)(Tiles[i].pos.h / scale_factor);
+            SDL_Rect tile_rect = {x, y, w ,h};
+            SDL_FillRect(mm->image, &tile_rect, SDL_MapRGB(screen->format, 0, 255, 0));
         }
-        SDL_BlitSurface(mm->img.image, NULL, minimap_surface, NULL);
-        SDL_Rect minimap_pos = {mm->img.pos.x, mm->img.pos.y, 0, 0};
-        SDL_BlitSurface(minimap_surface, NULL, screen, &minimap_pos);
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
-                pause = 1;
-            }
-        }
+        SDL_BlitSurface(mm->image, NULL, screen, &(mm->pos));
     }
-    // SDL_FreeSurface(minimap_surface);
 }
