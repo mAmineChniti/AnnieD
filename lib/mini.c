@@ -24,29 +24,31 @@ void update_miniplayer(minimap *mm, miniplayer *mp, character *player, SDL_Surfa
     SDL_BlitSurface(mp->img.image,NULL,screen,&mp->img.pos);
 }
 
-void update_time(int pause, minimap *mm, Uint32 start_time, SDL_Event event) {
+void update_time(int pause, minimap *mm, Uint32 *start_time) {
     txt timertxt;
     char time_str[20];
     load_txt(&timertxt, mm->img.pos.x + 10, mm->img.pos.y + 10, 255, 255, 255, "fonts/pixel_arial.ttf", 10);
-    while (!pause) {
+    if(!pause) {
         Uint32 current_time = SDL_GetTicks();
-        Uint32 elapsed_time = (current_time - start_time) / 1000;
+        Uint32 elapsed_time = (current_time - (*start_time)) / 1000;
         sprintf(time_str, "%02d:%02d", elapsed_time / 60, elapsed_time % 60);
         print_txt(mm->img.image, &timertxt, time_str);
+    }else{
+        (*start_time) = SDL_GetTicks();
     }
 }
 
-void minimap_maker(minimap *mm, SDL_Surface *screen, img *Tiles, int TilesNum, int pause, SDL_Event event){
+void minimap_maker(minimap *mm, SDL_Surface *screen, img *Tiles, int TilesNum, int pause){
     float scale_factor = (float) mm->img.image->w / (float)screen->w;
-    while(!pause){
-        for (int i = 0; i < TileNum; i++) {
+    if(!pause){
+        for (int i = 0; i < TilesNum; i++) {
             int x = (int)(Tiles[i].pos.x / scale_factor);
             int y = (int)(Tiles[i].pos.y / scale_factor);
             int w = (int)(Tiles[i].pos.w / scale_factor);
             int h = (int)(Tiles[i].pos.h / scale_factor);
             SDL_Rect tile_rect = {x, y, w ,h};
-            SDL_FillRect(mm->image, &tile_rect, SDL_MapRGB(screen->format, 0, 255, 0));
+            SDL_FillRect(mm->img.image, &tile_rect, SDL_MapRGB(screen->format, 0, 255, 0));
         }
-        SDL_BlitSurface(mm->image, NULL, screen, &(mm->pos));
+        SDL_BlitSurface(mm->img.image, NULL, screen, &(mm->img.pos));
     }
 }
